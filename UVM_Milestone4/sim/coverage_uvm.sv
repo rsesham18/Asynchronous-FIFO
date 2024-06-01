@@ -6,45 +6,45 @@ real coverage_score1;
 real coverage_score2;
 real coverage_score3;
 real total_coverage;
-fifo_seq_item cov_pkt;
+fifo_seq_item cov_tx;
 virtual intfc cov_if; 
 
 
-covergroup CG_1 with function sample(fifo_seq_item cov_pkt) ;
-    CP_1: coverpoint cov_pkt.waddr { 
-       bins waddr[]= {[0:255]};
+covergroup CG_1 with function sample(fifo_seq_item cov_tx) ;
+    CP_1: coverpoint cov_tx.wr_addr { 
+       bins wr_addr[]= {[0:255]};
      }
-	 CP_2: coverpoint cov_pkt.raddr { 
-     bins raddr[]= {[0:255]};
+	 CP_2: coverpoint cov_tx.rd_addr { 
+     bins rd_addr[]= {[0:255]};
      }
-     w_r_addr: cross CP_1,CP_2;
+     wr_rd_addr: cross CP_1,CP_2;
    endgroup
 
-covergroup CG_2 with function sample(fifo_seq_item w_pkt) ;
+covergroup CG_2 with function sample(fifo_seq_item wrd_pkt) ;
 
-CP_3:coverpoint w_pkt.w_rst_n{
+CP_3:coverpoint wrd_pkt.wr_rstn{
              bins RESET_1 = {1};
 			 bins RESET_0 ={0};
 			 }
-CP_4:coverpoint w_pkt.empty {
+CP_4:coverpoint wrd_pkt.empty {
              bins  fifo_empty_1 = {1};
 			 bins fifo_empty_0 = {0};
 			 }
-CP_5:coverpoint w_pkt.full {
+CP_5:coverpoint wrd_pkt.full {
              bins fifo_full_1 = {1};
 			 bins fifo_full_0 = {0};
 }
 			 
-CP_6 : coverpoint w_pkt.w_en {
+CP_6 : coverpoint wrd_pkt.wr_en {
              bins write_1 = {1};
 			 bins write_0 = {0};
 			 }
 
-CP_7 : coverpoint w_pkt.data_in {
+CP_7 : coverpoint wrd_pkt.data_in {
              bins wr_data = {[0:255]};
 			  }
 
-CP_8 : coverpoint w_pkt.r_en {
+CP_8 : coverpoint wrd_pkt.rd_en {
              bins read_1 = {1};
 			 bins read_0 = {0};
 			 }
@@ -59,29 +59,29 @@ commands_while_reset: cross CP_3,CP_6,CP_8;
 
 endgroup
 
-covergroup test_read with function sample(fifo_seq_item r_pkt) ;
-c5 : coverpoint r_pkt.r_en {
+covergroup test_read with function sample(fifo_seq_item rd_pkt) ;
+c5 : coverpoint rd_pkt.rd_en {
              bins read_1 = {1};
 			 bins read_0 = {0};
 			 }
-c6: coverpoint r_pkt.r_rst_n {
-             bins r_rst_n_high = {1};
-			 bins r_rst_n_low = {0};
+c6: coverpoint rd_pkt.rd_rstn {
+             bins rd_rstn_high = {1};
+			 bins rd_rstn_low = {0};
 			 }			 
 
-c7 : coverpoint r_pkt.data_out {
+c7 : coverpoint rd_pkt.data_out {
              bins rd_data = {[0:255]};
 			  }
 			  
-c8:coverpoint r_pkt.empty {
+c8:coverpoint rd_pkt.empty {
              bins  fifo_empty_1 = {1};
 			 bins fifo_empty_0 = {0};
 			 }
-c9:coverpoint r_pkt.full {
+c9:coverpoint rd_pkt.full {
              bins fifo_full_1 = {1};
 			 bins fifo_full_0 = {0};
 }
-c11 : coverpoint r_pkt.w_en {
+c11 : coverpoint rd_pkt.wr_en {
              bins write_1 = {1};
 			 bins write_0 = {0};
 			 }
