@@ -1,18 +1,18 @@
-module w2rsync #(parameter  Addr_Width=8)( rdclk, rd_rst_n,  wptr ,  wptr_sync);
+module wr_2_rd_sync #(parameter  Addr_Width=8)( rd_clk, rd_rstn,  wr_ptr ,  wr_ptr_sync);
 
-input bit rdclk,rd_rst_n;
- input [Addr_Width:0] wptr;
- output logic [Addr_Width:0]  wptr_sync;
+input bit rd_clk,rd_rstn;
+ input [Addr_Width:0] wr_ptr;
+ output logic [Addr_Width:0]  wr_ptr_sync;
 
- logic [Addr_Width:0] q2;
-  always_ff@(posedge rdclk) begin
-    if(!rd_rst_n) begin
-      q2 <= 0;
-      wptr_sync <= 0;//one cycle delay
+ logic [Addr_Width:0] wr_ptr1;
+ always_ff@(posedge rd_clk) begin
+    if(!rd_rstn) begin
+       wr_ptr1 <= 0;
+      wr_ptr_sync <= 0;//one cycle delay
     end
     else begin
-      q2 <= wptr;
-      wptr_sync <= q2;//two cycle delay
+      wr_ptr1 <= wr_ptr;
+      wr_ptr_sync <= wr_ptr1;//two cycle delay
     end
   end
 endmodule
