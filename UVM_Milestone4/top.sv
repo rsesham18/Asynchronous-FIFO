@@ -1,4 +1,4 @@
-module top #(parameter depth=256, data_width=8,ptr_width=8) (intfc i1 );
+module top #(parameter Depth=256, Data_Width=8,Addr_Width=8) (intfc i1 );
 
 
 //2 flop sunchronizers
