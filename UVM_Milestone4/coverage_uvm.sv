@@ -1,4 +1,4 @@
-class coverage extends uvm_test ;
+class coverage extends uvm_subscriber;
 `uvm_component_utils(coverage)
 uvm_analysis_imp #(fifo_seq_item, coverage) coverage_port;
 
