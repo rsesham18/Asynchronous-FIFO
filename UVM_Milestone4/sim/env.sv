@@ -2,7 +2,7 @@ class env extends uvm_env;
 	`uvm_component_utils(env)
 	agent agt;
 	scoreboard sbd; 
-	coverage  Covrg;
+	coverage  covrg;
 	
 
 	// creating a new constructor 
@@ -17,7 +17,7 @@ class env extends uvm_env;
 		`uvm_info("Env Class", "Build",UVM_LOW)
 		agt = agent ::type_id::create("agt",this);
 		sbd = scoreboard:: type_id::create("sbd", this);
-		Covrg=coverage::type_id::create("Covrg",this);
+		covrg=coverage::type_id::create("covrg",this);
 	endfunction
 	
 	
@@ -26,7 +26,7 @@ class env extends uvm_env;
 		super.connect_phase(phase);
 		`uvm_info("Env Class", "Connect",UVM_LOW)
 		agt.mon.monitor_port.connect(sbd.scoreboard_port);
-		agt.mon.monitor_port.connect(Covrg.coverage_port);
+		agt.mon.monitor_port.connect(covrg.coverage_port);
 	endfunction
 	
 	//Run Phase
