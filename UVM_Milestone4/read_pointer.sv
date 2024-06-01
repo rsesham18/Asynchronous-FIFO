@@ -1,18 +1,16 @@
-
-
- module read_ptr #(parameter ptr_width=8)( rdclk, rd_rst_n, rd_en,   wptr_sync,  rdraddr, rptr,  empty);
+module read_ptr #(parameter Addr_Width=8)( rdclk, rd_rst_n, rd_en,   wptr_sync,  rdraddr, rptr,  empty);
 
 input bit rdclk,rd_rst_n, rd_en;
-input logic [ptr_width:0]  wptr_sync;
+	input logic [Addr_Width:0]  wptr_sync;
 output bit empty;
-output logic [ptr_width:0] rdraddr, rptr;
+	output logic [Addr_Width:0] rdraddr, rptr;
 
  logic rempty;
  logic emptyr;
  logic readempty;
 
-logic [ptr_width:0]raddr_next;
-logic [ptr_width:0]rptr_next;
+	logic [Addr_Width:0]raddr_next;
+	logic [Addr_Width:0]rptr_next;
 
 
 assign raddr_next= rdraddr + (rd_en & !empty);
