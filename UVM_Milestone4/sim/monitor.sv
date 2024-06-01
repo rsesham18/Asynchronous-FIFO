@@ -1,7 +1,7 @@
 class monitor extends uvm_monitor;
 `uvm_component_utils(monitor)
 virtual intfc Virtual_Intf; 
-fifo_seq_item Monitor_pkt;
+fifo_seq_item mon_tx;
 
 uvm_analysis_port #(fifo_seq_item) monitor_port; 
 // creating a new constructor for monitor class
@@ -33,39 +33,39 @@ task run_phase (uvm_phase phase);
 	`uvm_info("Monitor", "Mon",UVM_LOW)
 	
 	forever begin
-		Monitor_pkt = fifo_seq_item #(8,8,256)::type_id::create("Monitor_pkt");
-		wait (Virtual_Intf.w_rst_n && Virtual_Intf.r_rst_n);
+		mon_tx = fifo_seq_item #(8,8,256)::type_id::create("mon_tx");
+		wait (Virtual_Intf.wr_rstn && Virtual_Intf.rd_rstn);
         //tranfering data when write enable is high
-		if(Virtual_Intf.w_en & !Virtual_Intf.r_en)
+		if(Virtual_Intf.wr_en & !Virtual_Intf.rd_en)
 		begin
-			@(posedge Virtual_Intf.wclk);
+			@(posedge Virtual_Intf.wr_clk);
 		
-			Monitor_pkt.w_en=Virtual_Intf.w_en;
-			Monitor_pkt.r_en=Virtual_Intf.r_en;
-			Monitor_pkt.waddr= Virtual_Intf.waddr;
-			Monitor_pkt.raddr=Virtual_Intf.raddr;
-			Monitor_pkt.data_in= Virtual_Intf.data_in;
-			Monitor_pkt.data_out= Virtual_Intf.data_out;
-			Monitor_pkt.full= Virtual_Intf.full;
-			Monitor_pkt.empty= Virtual_Intf.empty;
-			`uvm_info("Monitor WRITE",$sformatf("Burtst Dtails:time=%0d,w_en=%d,r_en=%d,data_in=%d,full=%0d,empty=%0d, waddr=%d,",$time,Virtual_Intf.w_en,Virtual_Intf.r_en,Virtual_Intf.data_in,Virtual_Intf.full,Virtual_Intf.empty,Virtual_Intf.waddr),UVM_LOW) 
+			mon_tx.wr_en=Virtual_Intf.wr_en;
+			mon_tx.rd_en=Virtual_Intf.rd_en;
+			mon_tx.wr_addr= Virtual_Intf.wr_addr;
+			mon_tx.rd_addr=Virtual_Intf.rd_addr;
+			mon_tx.data_in= Virtual_Intf.data_in;
+			mon_tx.data_out= Virtual_Intf.data_out;
+			mon_tx.full= Virtual_Intf.full;
+			mon_tx.empty= Virtual_Intf.empty;
+			`uvm_info("Monitor WRITE",$sformatf("Burtst Dtails:time=%0d,wr_en=%d,rd_en=%d,data_in=%d,full=%0d,empty=%0d, wr_addr=%d,",$time,Virtual_Intf.wr_en,Virtual_Intf.rd_en,Virtual_Intf.data_in,Virtual_Intf.full,Virtual_Intf.empty,Virtual_Intf.wr_addr),UVM_LOW) 
 		end
 		
-		if(Virtual_Intf.r_en & !Virtual_Intf.w_en)
+		if(Virtual_Intf.rd_en & !Virtual_Intf.wr_en)
 		begin
-		    @(posedge Virtual_Intf.rclk);
-			Monitor_pkt.w_en=Virtual_Intf.w_en;
-			Monitor_pkt.r_en=Virtual_Intf.r_en;
-			Monitor_pkt.waddr= Virtual_Intf.waddr;
-			Monitor_pkt.raddr=Virtual_Intf.raddr;
-			Monitor_pkt.data_in= Virtual_Intf.data_in;
-			Monitor_pkt.data_out= Virtual_Intf.data_out;
-			Monitor_pkt.full= Virtual_Intf.full;
-			Monitor_pkt.empty= Virtual_Intf.empty;
-			`uvm_info("Monitor Read",$sformatf("Burtst Dtails:time=%0d,w_en=%d,r_en=%d,data_out=%d,full=%0d,empty=%0d, raddr=%d",$time,Virtual_Intf.w_en,Virtual_Intf.r_en,Virtual_Intf.data_out,Virtual_Intf.full,Virtual_Intf.empty,Virtual_Intf.raddr),UVM_LOW)
+		    @(posedge Virtual_Intf.rd_clk);
+			mon_tx.wr_en=Virtual_Intf.wr_en;
+			mon_tx.rd_en=Virtual_Intf.rd_en;
+			mon_tx.wr_addr= Virtual_Intf.wr_addr;
+			mon_tx.rd_addr=Virtual_Intf.rd_addr;
+			mon_tx.data_in= Virtual_Intf.data_in;
+			mon_tx.data_out= Virtual_Intf.data_out;
+			mon_tx.full= Virtual_Intf.full;
+			mon_tx.empty= Virtual_Intf.empty;
+			`uvm_info("Monitor Read",$sformatf("Burtst Dtails:time=%0d,wr_en=%d,rd_en=%d,data_out=%d,full=%0d,empty=%0d, rd_addr=%d",$time,Virtual_Intf.wr_en,Virtual_Intf.rd_en,Virtual_Intf.data_out,Virtual_Intf.full,Virtual_Intf.empty,Virtual_Intf.rd_addr),UVM_LOW)
 			
 		end
-		monitor_port.write(Monitor_pkt); 
+		monitor_port.write(mon_tx); 
 	end
 endtask
 
