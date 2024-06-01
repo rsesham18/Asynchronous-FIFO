@@ -1,7 +1,7 @@
 class driver extends uvm_driver #(fifo_seq_item);
 	`uvm_component_utils(driver)
 	virtual intfc Virtual_Intf;	
-	fifo_seq_item Driver_Packet; 
+	fifo_seq_item driver_tx; 
 	
 	
 	//creating a new constructor
@@ -36,41 +36,41 @@ class driver extends uvm_driver #(fifo_seq_item);
 		`uvm_info("Driver Class", "Inside run Phase!",UVM_LOW)
 		forever 
 		 begin
-			Driver_Packet = fifo_seq_item#(8,8,256)::type_id::create("Driver_Packet");
-			seq_item_port.get_next_item(Driver_Packet);
-			drive(Driver_Packet);
+			driver_tx = fifo_seq_item#(8,8,256)::type_id::create("driver_tx");
+			seq_item_port.get_next_item(driver_tx);
+			drive(driver_tx);
 			seq_item_port.item_done();
 		 end
     endtask
 	
 	//Drive Method
-	task drive(fifo_seq_item Driver_Packet);
+	task drive(fifo_seq_item driver_tx);
 		begin
-		if (!Driver_Packet.w_rst_n & !Driver_Packet.r_rst_n) begin
-			Virtual_Intf.w_rst_n <= Driver_Packet.w_rst_n;
-			Virtual_Intf.r_rst_n <= Driver_Packet.r_rst_n;
+			if (!driver_tx.wr_rstn & !driver_tx.rd_rstn) begin
+			Virtual_Intf.wr_rstn <= driver_tx.wr_rstn;
+			Virtual_Intf.rd_rstn <= driver_tx.rd_rstn;
 		end
 		else begin
-			if(Driver_Packet.w_en & !Driver_Packet.r_en)
+			if(driver_tx.wr_en & !driver_tx.rd_en)
 			  begin
-			  Virtual_Intf.w_rst_n <= Driver_Packet.w_rst_n;
-				Virtual_Intf.r_rst_n <= Driver_Packet.r_rst_n;
-				Virtual_Intf.w_en <= Driver_Packet.w_en;
-				Virtual_Intf.r_en <= Driver_Packet.r_en;
-				Virtual_Intf.data_in <= Driver_Packet.data_in;
-				@(posedge Virtual_Intf.wclk);			
-				`uvm_info("DRIVER_WRITE",$sformatf("Burtst Dtails:time=%0d,w_en=%d,r_en=%d,data_in=%d,full=%0d,empty=%0d,waddr=%d",$time,Virtual_Intf.w_en,Virtual_Intf.r_en,Virtual_Intf.data_in,Virtual_Intf.full,Virtual_Intf.empty,Virtual_Intf.waddr),UVM_LOW) 
+			  Virtual_Intf.wr_rstn <= driver_tx.wr_rstn;
+				Virtual_Intf.rd_rstn <= driver_tx.rd_rstn;
+				Virtual_Intf.wr_en <= driver_tx.wr_en;
+				Virtual_Intf.rd_en <= driver_tx.rd_en;
+				Virtual_Intf.data_in <= driver_tx.data_in;
+				@(posedge Virtual_Intf.wr_clk);			
+				`uvm_info("DRIVER_WRITE",$sformatf("Burtst Dtails:time=%0d,wr_en=%d,rd_en=%d,data_in=%d,full=%0d,empty=%0d,wr_addr=%d",$time,Virtual_Intf.wr_en,Virtual_Intf.rd_en,Virtual_Intf.data_in,Virtual_Intf.full,Virtual_Intf.empty,Virtual_Intf.wr_addr),UVM_LOW) 
 				
 			  end
-			if(Driver_Packet.r_en & !Driver_Packet.w_en)
+			if(driver_tx.rd_en & !driver_tx.wr_en)
 			  begin
-			    Virtual_Intf.w_rst_n <= Driver_Packet.w_rst_n;
-				Virtual_Intf.r_rst_n <= Driver_Packet.r_rst_n;
-				Virtual_Intf.r_en <= Driver_Packet.r_en;
-				Virtual_Intf.w_en <= Driver_Packet.w_en;
-				Virtual_Intf.data_in <= Driver_Packet.data_in;
-				 @(posedge Virtual_Intf.rclk);
-				`uvm_info("DRIVER_READ",$sformatf("Burtst Dtails:time=%0d,w_en=%d,r_en=%d,data_out=%d,full=%0d,empty=%0d,raddr=%d",$time,Virtual_Intf.w_en,Virtual_Intf.r_en,Virtual_Intf.data_out,Virtual_Intf.full,Virtual_Intf.empty,Virtual_Intf.raddr),UVM_LOW)
+			    Virtual_Intf.wr_rstn <= driver_tx.wr_rstn;
+				Virtual_Intf.rd_rstn <= driver_tx.rd_rstn;
+				Virtual_Intf.rd_en <= driver_tx.rd_en;
+				Virtual_Intf.wr_en <= driver_tx.wr_en;
+				Virtual_Intf.data_in <= driver_tx.data_in;
+				 @(posedge Virtual_Intf.rd_clk);
+				`uvm_info("DRIVER_READ",$sformatf("Burtst Dtails:time=%0d,wr_en=%d,rd_en=%d,data_out=%d,full=%0d,empty=%0d,rd_addr=%d",$time,Virtual_Intf.wr_en,Virtual_Intf.rd_en,Virtual_Intf.data_out,Virtual_Intf.full,Virtual_Intf.empty,Virtual_Intf.rd_addr),UVM_LOW)
 			    
 			  end
 			  
