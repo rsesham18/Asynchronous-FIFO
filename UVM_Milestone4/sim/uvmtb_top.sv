@@ -28,7 +28,7 @@ parameter Addr_Width=8;
 	
 	
 	intfc Intf_DUT(.wr_clk(wr_clk), .rd_clk(rd_clk), .wr_rstn(wr_rstn), .rd_rstn(rd_rstn));
-	top #(.Depth(Depth), .Data_Width(Data_Width), .Addr_Width(Addr_Width)) DUT (.i1(Intf_DUT));
+	async_top #(.Depth(Depth), .Data_Width(Data_Width), .Addr_Width(Addr_Width)) DUT (.intf(Intf_DUT));
 	
 	// connecting interface through uvm_config_db to other test bench components
 	initial begin
