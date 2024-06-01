@@ -17,18 +17,18 @@ import uvm_pkg::*;
 
 module uvmtb_top;
 
-parameter depth=256;
-parameter data_width=8;
-parameter ptr_width=8;
+parameter Depth=256;
+parameter Data_Width=8;
+parameter Addr_Width=8;
 
 
-	bit rclk;
-	bit wclk;
-	bit w_rst_n, r_rst_n;
+	bit rd_clk;
+	bit wr_clk;
+	bit wr_rstn, rd_rstn;
 	
 	
-	intfc Intf_DUT(.wclk(wclk), .rclk(rclk), .w_rst_n(w_rst_n), .r_rst_n(r_rst_n));
-	top #(.depth(depth), .data_width(data_width), .ptr_width(ptr_width)) DUT (.i1(Intf_DUT));
+	intfc Intf_DUT(.wr_clk(wr_clk), .rd_clk(rd_clk), .wr_rstn(wr_rstn), .rd_rstn(rd_rstn));
+	top #(.Depth(Depth), .Data_Width(Data_Width), .Addr_Width(Addr_Width)) DUT (.i1(Intf_DUT));
 	
 	// connecting interface through uvm_config_db to other test bench components
 	initial begin
@@ -41,17 +41,17 @@ parameter ptr_width=8;
 	end
 	
 	// clock generation
-	always #5 rclk=~rclk;
-    always #2 wclk=~wclk;
+	always #5 rd_clk=~rd_clk;
+    always #2 wr_clk=~wr_clk;
 	
 	
 	//reset Generation
     initial begin
-	    w_rst_n = 0;
-		r_rst_n = 0;
+	    wr_rstn = 0;
+		rd_rstn = 0;
 		
-		#15 w_rst_n = 1;
-		#15 r_rst_n = 1;
+		#15 wr_rstn = 1;
+		#15 rd_rstn = 1;
     end
 	
 	
