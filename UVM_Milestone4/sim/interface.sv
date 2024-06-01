@@ -1,12 +1,12 @@
-interface intfc(input bit wclk, rclk, w_rst_n, r_rst_n);
-parameter depth=256, data_width=8, ptr_width=8;
-parameter wclk_width=4;
-parameter rclk_width=10;
-logic w_en, r_en;
-logic [ptr_width:0] rptr_sync, wptr_sync, waddr, wptr,raddr, rptr;
+interface intfc(input bit wr_clk, rd_clk, wr_rstn, rd_rstn);
+parameter Depth=256, Data_Width=8, Addr_Width=8;
+parameter wr_clk_width=4;
+parameter rd_clk_width=10;
+logic wr_en, rd_en;
+	logic [Addr_Width:0] rd_ptr_sync, wr_ptr_sync, wr_addr, wr_ptr,rd_addr, rd_ptr;
 bit full, empty;
-logic [data_width-1:0] data_in,data_out;
-logic  [data_width-1:0] wdata_q[$],rdata;
+	logic [Data_Width-1:0] data_in,data_out;
+	logic  [Data_Width-1:0] wr_data_q[$],rd_data;
 		
 endinterface 
 /*
