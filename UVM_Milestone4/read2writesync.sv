@@ -1,13 +1,10 @@
-
-
-
-module r2wsync #(parameter ptr_width=8)( wrclk, wr_rst_n, rptr,  rptr_sync);
+module r2wsync #(parameter Addr_Width=8)( wrclk, wr_rst_n, rptr,  rptr_sync);
 
 input bit wrclk, wr_rst_n;
-input logic [ptr_width:0]  rptr;
-output logic [ptr_width:0]rptr_sync;
+  input logic [Addr_Width:0]  rptr;
+  output logic [Addr_Width:0]rptr_sync;
 
-logic [ptr_width:0] q1;
+  logic [Addr_width:0] q1;
   always_ff@(posedge wrclk) begin
     if(!wr_rst_n) begin
       q1 <= 0;
