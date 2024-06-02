@@ -26,9 +26,10 @@ parameter Depth=256, Data_Width=8, Addr_Width=8;
   
 logic wr_en, rd_en;
   
-logic [Addr_Width:0] rd_ptr_sync, wr_ptr_sync, wr_addr, wr_ptr,rd_addr, rd_ptr;
+//logic [Addr_Width:0] rd_ptr_sync, wr_ptr_sync, wr_addr, wr_ptr,rd_addr, rd_ptr;
 bit full, empty;
-logic [Data_Width-1:0] data_in,data_out;
+logic [Data_Width-1:0] data_in, data_out;
+int uniq_id;
 //logic  [Data_Width-1:0] wr_data_q[$],rd_data;
 		
 endinterface 
