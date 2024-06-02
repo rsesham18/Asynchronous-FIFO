@@ -17,9 +17,9 @@ class environment;
   mailbox mon_in2scb;
   mailbox mon_out2scb;
   
-  virtual async_fifo_if vif;
+  virtual intfc vif;
   
-  function new(virtual async_fifo_if vif);
+  function new(virtual intfc vif);
     this.vif = vif;
     
     gen2driv = new();
