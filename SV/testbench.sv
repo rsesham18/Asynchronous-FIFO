@@ -16,7 +16,7 @@ intfc bus_tb();
 test test_inst(bus_tb);
 
   async_top #(Depth, Data_Width, Addr_Width) dut (
-    .bus(bus_tb)
+    .intf(bus_tb)
   );
 
 
