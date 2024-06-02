@@ -6,21 +6,16 @@
 
 module async_fifo1_tb_uvm;
 
-  parameter DATA_SIZE = 8;
-  parameter ADDR_SIZE = 8;
+  parameter Data_Width = 8;
+  parameter Addr_Width = 8;
+  parameter Depth=256;
   parameter IDLE_R =3;
-  parameter IDLE_W=1; 
-  // Model a queue for checking data
-
-  //reg [DSIZE-1:0] verif_data_q[$];
-  //reg [DSIZE-1:0] verif_wdata;
-
-
+  parameter IDLE_W=1;
   
-async_fifo_if bus_tb();
+intfc bus_tb();
 test test_inst(bus_tb);
 
-  async_fifo1 #(DATA_SIZE, ADDR_SIZE) dut (
+  async_top #(Depth, Data_Width, Addr_Width) dut (
     .bus(bus_tb)
   );
 
@@ -28,13 +23,13 @@ test test_inst(bus_tb);
 // Coverage declarations
   covergroup fifo_coverage;
     option.per_instance = 1;
-    coverpoint bus_tb.wr_data {
+    coverpoint bus_tb.data_in {
       bins wrdata_bin[] = {[8'h00:8'hFF]};
     }
-    coverpoint bus_tb.rd_inc {
+    coverpoint bus_tb.rd_en {
       bins rdinc_bin[] = {0, 1};
     }
-    coverpoint bus_tb.wr_inc {
+    coverpoint bus_tb.wr_en {
       bins rdinc_wrinc[] = {0, 1};
     }
     coverpoint bus_tb.wr_rstn {
@@ -44,10 +39,10 @@ test test_inst(bus_tb);
       bins rdinc_rdrst_n[] = {0, 1};
     }
     // Coverpoints for wfull and rempty
-    coverpoint bus_tb.wr_full {
+    coverpoint bus_tb.full {
       bins wrfull_bin = {0, 1};
     }
-    coverpoint bus_tb.rd_empty {
+    coverpoint bus_tb.empty {
       bins rdempty_bin = {0, 1};
     }
   endgroup
