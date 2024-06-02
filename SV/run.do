@@ -1,11 +1,11 @@
 vlib work 
 
-vlog async_fifo.sv +acc
+vlog async_top.sv +acc
 vlog fifo_mem.sv +acc
-vlog rdptr_empty.sv +acc
-vlog sync_r2w.sv +acc
-vlog sync_w2r.sv +acc
-vlog wptr_full.sv +acc
+vlog read_ptr.sv +acc
+vlog rd_2_wr_sync.sv +acc
+vlog wr_2_rd_sync.sv +acc
+vlog write_ptr.sv +acc
 vlog -lint tb.sv +acc
 
 
