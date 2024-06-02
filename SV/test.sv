@@ -1,6 +1,6 @@
 
 `include "env.sv"
-module test(async_fifo_if intf);
+module test(intfc intf);
   environment env;
   
   initial begin
