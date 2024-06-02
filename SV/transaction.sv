@@ -1,4 +1,4 @@
-class trans_fifo;
+class transaction;
 
   parameter  Data_Width =8, Addr_Width = 8;
   rand bit wr_en;
