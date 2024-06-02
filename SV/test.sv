@@ -6,7 +6,6 @@ module test(async_fifo_if intf);
   initial begin
     env = new(intf);
     
-    
     env.gen.tx_count = 100;
     
     env.run();
