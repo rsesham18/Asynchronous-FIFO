@@ -1,17 +1,16 @@
-
 `include "transaction.sv"
 
 class generator;
   rand transaction tx;
   mailbox gen2driv;
-  virtual intf bus_tb;
+  virtual intfc bus_tb;
   int tx_count;
   int uniq_id;
   logic [8-1:0] verif_data_q[$];
   logic [8-1:0] verif_wrdata;
   int i;
   event ended;
-  function new(virtual intf bus_tb, mailbox gen2driv);
+  function new(virtual intfc bus_tb, mailbox gen2driv);
     this.bus_tb = bus_tb;
     this.gen2driv = gen2driv;
   endfunction
