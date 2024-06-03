@@ -1,5 +1,7 @@
 // Code your testbench here
 // or browse Examples
+// Code your testbench here
+// or browse Examples
 
 `include "interface.sv"
 `include "test.sv"
@@ -11,8 +13,13 @@ module async_fifo1_tb_uvm;
   parameter Depth=256;
   parameter IDLE_R =3;
   parameter IDLE_W=1;
-  
-intfc bus_tb();
+
+	bit rd_clk;
+	bit wr_clk;
+	bit wr_rstn, rd_rstn;
+	
+	
+intfc bus_tb(.wr_clk(wr_clk), .rd_clk(rd_clk), .wr_rstn(wr_rstn), .rd_rstn(rd_rstn));
 test test_inst(bus_tb);
 
   async_top #(Depth, Data_Width, Addr_Width) dut (
@@ -47,19 +54,9 @@ test test_inst(bus_tb);
     }
   endgroup
 
-  
-    
-  initial begin
-   
-    bus_tb.wr_clk = 1'b0;
-    bus_tb.rd_clk = 1'b0;
-       
-  
-    fork
-      forever #10ns bus_tb.wr_clk = ~bus_tb.wr_clk;
-      forever #35ns bus_tb.rd_clk = ~bus_tb.rd_clk;
-    join
-  end
+  // clock generation
+	always #5 rd_clk=~rd_clk;
+    always #2 wr_clk=~wr_clk;
     
  initial begin
     $dumpfile("dump.vcd");
