@@ -9,6 +9,7 @@ class transaction;
   bit empty, full;
   bit [Addr_Width:0] wr_addr;
   bit [Addr_Width:0] rd_addr;
+  int uniq_id;
 	
 	//Constraints dor read and write enable
 	//constraint wr {w_en dist {1:/50, 0:/(50)};}
@@ -20,4 +21,3 @@ class transaction;
 endclass
 	
 	
-
