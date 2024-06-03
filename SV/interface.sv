@@ -6,7 +6,9 @@ logic wr_en, rd_en;
 bit full, empty;
 logic [Data_Width-1:0] data_in, data_out;
 int uniq_id;
-
+logic [Addr_Width:0] rptr_sync, wptr_sync, waddr, wptr,raddr, rptr;
+logic  [Data_Width-1:0] wdata_q[$],rdata;
+		
 //EMPTY Condition
 assert property (@(posedge wr_clk or posedge rd_clk) disable iff (!(rd_rstn), !(wr_rstn))
     (wr_ptr == rd_ptr) |=> (empty == 1)
