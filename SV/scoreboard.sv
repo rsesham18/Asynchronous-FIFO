@@ -1,3 +1,4 @@
+
 class scoreboard;
   mailbox mon_in2scb;
   mailbox mon_out2scb;
@@ -48,7 +49,7 @@ class scoreboard;
     $fdisplay(fd,"Team1 scoreboard results");
 
     for(int j=0;j<100;j++) begin
-      @(posedge vif.rd_en iff !vif.empty)
+      @(posedge vif.rd_clk iff !vif.empty)
         vif.rd_en = (j%3 == 0)? 1'b1 : 1'b0;
       if ((vif.rd_en) &&(j!=0)) begin
           verif_wrdata = verif_data_q.pop_back();
