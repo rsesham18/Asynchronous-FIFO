@@ -7,6 +7,13 @@ logic wr_en, rd_en;
 bit full, empty;
 	logic [Data_Width-1:0] data_in,data_out;
 	logic  [Data_Width-1:0] wr_data_q[$],rd_data;
+assert property (@(posedge wr_clk or posedge rd_clk) disable iff (!(rd_rstn), !(wr_rstn))
+    (wr_ptr == rd_ptr) |=> (empty == 1)
+) else $fatal("FIFO empty flag error");
+	
+assert property (@(posedge wr_clk or posedge rd_clk) disable iff (!(rd_rstn), !(wr_rstn))
+    ((wr_ptr + 1) % Depth == rd_ptr) |=> (full == 1)
+) else $fatal("FIFO full flag error");
 		
 endinterface 
 /*
