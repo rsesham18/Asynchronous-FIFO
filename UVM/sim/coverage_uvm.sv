@@ -1,4 +1,4 @@
-class coverage extends uvm_subscriber;
+class coverage extends uvm_subscriber#(fifo_seq_item);
 `uvm_component_utils(coverage)
 uvm_analysis_imp #(fifo_seq_item, coverage) coverage_port;
 
@@ -114,6 +114,7 @@ endfunction
 
 function void write(fifo_seq_item t);
 
+this.cov_tx=t;
 test_read.sample(t);
 CG_2.sample(t);
 

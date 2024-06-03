@@ -83,7 +83,7 @@ class sequence_fifo_rd extends uvm_sequence;
 	task body();
 		for (int i=0; i<tx_count;i++) begin
 		    `uvm_info("FIFO_READ_SEQUENCE","INSIDE THE TASK BODY!",UVM_LOW)
-			fifo_rd_pkt = fifo_seq_item#(8,8,256)::type_id::create ("trans_rd");
+			trans_rd = fifo_seq_item#(8,8,256)::type_id::create ("trans_rd");
 			start_item(trans_rd);
 			assert (trans_rd.randomize() with {wr_en==0 & rd_en==1;});
 			`uvm_info("SEQ",$sformatf("Generate new item:%s ",trans_rd.convert2str()),UVM_LOW)

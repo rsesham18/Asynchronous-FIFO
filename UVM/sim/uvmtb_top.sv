@@ -6,7 +6,7 @@ import uvm_pkg::*;
 `include "interface.sv"
 `include "FIFO_sequence_items.sv"
 `include "fifo_sequence.sv"
-`include "sequencer.sv"
+`include "fifo_sequencer.sv"
 `include "driver.sv"
 `include "monitor.sv"
 `include "agent.sv"

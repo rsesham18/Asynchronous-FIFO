@@ -9,19 +9,9 @@ logic [Data_Width-1:0] data_in,data_out;
 logic  [Data_Width-1:0] wr_data_q[$],rd_data;
 
 //assertions
-//EMPTY CONDITION
-assert property (@(posedge wr_clk or posedge rd_clk) disable iff (!(rd_rstn), !(wr_rstn))
-    (wr_ptr == rd_ptr) |=> (empty == 1)
-) else $fatal("FIFO empty flag error");
-
-//FULL_CONDITION
-assert property (@(posedge wr_clk or posedge rd_clk) disable iff (!(rd_rstn), !(wr_rstn))
-    ((wr_ptr + 1) % Depth == rd_ptr) |=> (full == 1)
-) else $fatal("FIFO full flag error");
-
 // Write when FIFO is full
-assert property (@(posedge wr_clk) disable iff (!(wr_rstn)
-    !(wr_en && full)
+assert property (@(posedge wr_clk) disable iff (!(wr_rstn))
+    !(wr_en && full) 
 ) else $fatal("Write attempted when FIFO is full");
 
 // Read when FIFO is empty

@@ -30,14 +30,14 @@ class uvmtest extends uvm_test;
 		phase.raise_objection(this);
 		
 			rst_sequence=	fifo_sequence::type_id::create("rst_sequence");
-			rst_sequence.start(Env_Handle.agt.Seq);
+			rst_sequence.start(Env_Handle.agt.sqr);
 			
 		#10;
 			wr_seq=	fifo_sequence_wr::type_id::create("wr_seq");
-			wr_seq.start(Env_Handle.agt.Seq);
+			wr_seq.start(Env_Handle.agt.sqr);
 		#4;
 			rd_Seq= sequence_fifo_rd::type_id::create("rd_Seq");
-			rd_Seq.start(Env_Handle.agt.Seq);
+			rd_Seq.start(Env_Handle.agt.sqr);
 		#10;
 			
 		phase.drop_objection(this);

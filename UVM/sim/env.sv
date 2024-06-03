@@ -25,7 +25,7 @@ class env extends uvm_env;
 	function void connect_phase(uvm_phase phase);
 		super.connect_phase(phase);
 		`uvm_info("Env Class", "Connect",UVM_LOW)
-		agt.mon.monitor_port.connect(sbd.scoreboard_port);
+		agt.mon.monitor_port.connect(sbd.ap_port);
 		agt.mon.monitor_port.connect(covrg.coverage_port);
 	endfunction
 	
