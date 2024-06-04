@@ -7,24 +7,39 @@ bit full, empty;
 logic [Data_Width-1:0] data_in, data_out;
 logic [Addr_Width:0] rd_ptr_sync, wr_ptr_sync, wr_addr, wr_ptr,rd_addr, rd_ptr;
 logic  [Data_Width-1:0] wdata_q[$],rdata;
-		
-/*//EMPTY Condition
-assert property (@(posedge wr_clk or posedge rd_clk) disable iff (!(rd_rstn), !(wr_rstn))
-    (wr_ptr == rd_ptr) |=> (empty == 1)
-) else $fatal("FIFO empty flag error");
+int uniq_id;
 
-//Full Condition
-assert property (@(posedge wr_clk or posedge rd_clk) disable iff (!(rd_rstn), !(wr_rstn))
-    ((wr_ptr + 1) % Depth == rd_ptr) |=> (full == 1)
-) else $fatal("FIFO full flag error");
+//assertions
+assert property (@(posedge rd_clk)
+ disable iff (!rd_rstn)
+ (rd_ptr == wr_ptr) |-> empty
+) else $error("FIFO empty signal error at time %t", $time);
 
-// Write when FIFO is full
-assert property (@(posedge wr_clk) disable iff (!(wr_rstn)
-    !(wr_en && full)
-) else $fatal("Write attempted when FIFO is full");
 
-// Read when FIFO is empty
- assert property (@(posedge rd_clk) disable iff (!(rd_rstn))
-    !(rd_en && empty)
-) else $fatal("Read attempted when FIFO is empty");*/
+assert property (@(posedge wr_clk)
+disable iff (!wr_rstn)
+  (wr_ptr + 1 == rd_ptr) |-> full
+) else $error("FIFO full signal error at time %t", $time);
+  
+  
+ assert property (@(posedge wr_clk)
+disable iff (!wr_rstn)
+                  wr_en |-> !($isunknown(data_in))
+) else $error("FIFO data_in signal error at time %t", $time);
+   
+  
+assert property (@(posedge rd_clk)
+ disable iff (!rd_rstn)
+ rd_en |-> !($isunknown(data_out))
+ ) else $error("FIFO data_out signal error at time %t", $time);
+
+assert property (@(posedge wr_clk)
+                 disable iff (!wr_rstn)
+                 (!wr_rstn |-> (wr_ptr == 0))
+) else $error("Write pointer reset error at time %t", $time);
+
+  assert property (@(posedge rd_clk)
+                   disable iff (!rd_rstn)
+                   (!rd_rstn |-> (rd_ptr == 0))
+) else $error("Write pointer reset error at time %t", $time);
 endinterface 
