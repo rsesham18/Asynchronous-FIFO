@@ -55,7 +55,7 @@ test test_inst(bus_tb);
   endgroup
 
   // clock generation
-	always #5 rd_clk=~rd_clk;
+	always #4 rd_clk=~rd_clk;
     always #2 wr_clk=~wr_clk;
     
  initial begin
