@@ -9,14 +9,37 @@ logic [Data_Width-1:0] data_in,data_out;
 logic  [Data_Width-1:0] wr_data_q[$],rd_data;
 
 //assertions
-// Write when FIFO is full
-assert property (@(posedge wr_clk) disable iff (!(wr_rstn))
-    !(wr_en && full) 
-) else $fatal("Write attempted when FIFO is full");
 
-// Read when FIFO is empty
- assert property (@(posedge rd_clk) disable iff (!(rd_rstn))
-    !(rd_en && empty)
-) else $fatal("Read attempted when FIFO is empty");
+assert property (@(posedge rd_clk)
+ disable iff (!rd_rstn)
+ (rd_ptr == wr_ptr) |-> empty
+) else $error("FIFO empty signal error at time %t", $time);
 
+
+assert property (@(posedge wr_clk)
+disable iff (!wr_rstn)
+  (wr_ptr + 1 == rd_ptr) |-> full
+) else $error("FIFO full signal error at time %t", $time);
+  
+  
+ assert property (@(posedge wr_clk)
+disable iff (!wr_rstn)
+                  wr_en |-> !($isunknown(data_in))
+) else $error("FIFO data_in signal error at time %t", $time);
+   
+  
+assert property (@(posedge rd_clk)
+ disable iff (!rd_rstn)
+ rd_en |-> !($isunknown(data_out))
+ ) else $error("FIFO data_out signal error at time %t", $time);
+
+assert property (@(posedge wr_clk)
+                 disable iff (!wr_rstn)
+                 (!wr_rstn |-> (wr_ptr == 0))
+) else $error("Write pointer reset error at time %t", $time);
+
+  assert property (@(posedge rd_clk)
+                   disable iff (!rd_rstn)
+                   (!rd_rstn |-> (rd_ptr == 0))
+) else $error("Write pointer reset error at time %t", $time);
 endinterface 
