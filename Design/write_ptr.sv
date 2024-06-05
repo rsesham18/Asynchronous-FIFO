@@ -8,7 +8,7 @@ module write_ptr #(parameter Addr_Width=8)(wr_clk, wr_rstn, wr_en,  rd_ptr_sync,
 	logic [Addr_Width:0]wr_addr_next; 
 	logic [Addr_Width:0]wr_ptr_next;
 
-	assign wr_addr_next= wr_addr + (wr_en & !full);
+	assign wr_addr_next= wr_addr + (wr_en & !full); //incrementing pointer untill fifo is full
 	assign wr_ptr_next= (wr_addr_next>>1)^wr_addr_next; //binary to gray conversion
 
 	always_ff@(posedge wr_clk or negedge wr_rstn)
