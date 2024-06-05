@@ -1,5 +1,4 @@
 class transaction;
-
   parameter  Data_Width =8, Addr_Width = 8;
   rand bit wr_en;
   rand bit rd_en;
@@ -10,14 +9,6 @@ class transaction;
   bit [Addr_Width:0] wr_addr;
   bit [Addr_Width:0] rd_addr;
   int uniq_id;
-	
-	//Constraints dor read and write enable
-	//constraint wr {w_en dist {1:/50, 0:/(50)};}
-	//constraint rd {r_en dist {0:/50, 1:/(50)};}
-	// function void post_randomize();
-	// r_en = ~w_en;
-	// endfunction
-	
 endclass
 	
 	
