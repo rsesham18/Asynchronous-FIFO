@@ -2,8 +2,8 @@ class driver;
   int tx_count1=0;
   int tx_count2=0;
   
-  virtual intfc intf_vi;
-  mailbox gen2driv;
+  virtual intfc intf_vi; //virtual instance of an interface 
+  mailbox gen2driv; //instance of a mailbox
 
   //constructor assigning passed values to member variables
   function new(virtual intfc intf_vi, mailbox gen2driv);
