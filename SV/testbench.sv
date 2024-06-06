@@ -1,8 +1,3 @@
-// Code your testbench here
-// or browse Examples
-// Code your testbench here
-// or browse Examples
-
 `include "interface.sv"
 `include "test.sv"
 
@@ -18,10 +13,13 @@ module async_fifo1_tb_uvm;
 	bit wr_clk;
 	bit wr_rstn, rd_rstn;
 	
-	
+//instantiation of interface	
 intfc bus_tb(.wr_clk(wr_clk), .rd_clk(rd_clk), .wr_rstn(wr_rstn), .rd_rstn(rd_rstn));
+
+//instantiation of test class
 test test_inst(bus_tb);
 
+//instantiation of DUT
   async_top #(Depth, Data_Width, Addr_Width) dut (
     .intf(bus_tb)
   );
@@ -67,7 +65,7 @@ fifo_coverage fifo_cov; // Instantiate the coverage group
 fifo_cov=new();
 
   forever begin@(negedge bus_tb.wr_clk);
-        fifo_cov.sample();
+	  fifo_cov.sample();//samppling of coverage
 
      end
 
