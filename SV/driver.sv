@@ -10,7 +10,8 @@ class driver;
     this.intf_vi = intf_vi;
     this.gen2driv = gen2driv;
   endfunction
-  
+
+  //driving reset values
   task reset;
     intf_vi.wr_rstn <= 0;
     intf_vi.rd_rstn <= 0;
