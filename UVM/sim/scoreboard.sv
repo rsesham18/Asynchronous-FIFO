@@ -1,18 +1,20 @@
 class scoreboard extends uvm_scoreboard;
-	`uvm_component_utils(scoreboard)
+	`uvm_component_utils(scoreboard) //registering scorboard component to the factory
 	 bit [7:0]transaction_queue[$];
-	 fifo_seq_item trans[$];
-	uvm_analysis_imp #(fifo_seq_item,scoreboard) ap_port; 
+	fifo_seq_item trans[$]; //creating handle for the sequence item 
+	uvm_analysis_imp #(fifo_seq_item,scoreboard) ap_port; //creating handle for the analysis import
+
+	//constructor new
 	 function new(string name= "scoreboard",uvm_component parent);
 		super.new(name,parent);
 		`uvm_info("Scoreboard", "Sbd",UVM_LOW)
 	endfunction
 	
-	//Build Phase
+	//Build Phase 
 	function void build_phase(uvm_phase phase);
 	 super.build_phase(phase);
 		`uvm_info("Scoreboard", "Build phase",UVM_LOW)
-		ap_port = new("ap_port",this);
+		ap_port = new("ap_port",this); // building analysis port
 		endfunction
 		
 	//Connect Phase
@@ -41,7 +43,7 @@ class scoreboard extends uvm_scoreboard;
 	 trans.push_front(seqitem);
 	   if(seqitem.wr_en &!seqitem.full)
 	   begin
-		transaction_queue.push_front(seqitem.data_in);
+		   transaction_queue.push_front(seqitem.data_in); //storing input data to the queue
 		`uvm_info("Scoreboard write data_in",$sformatf("Burtst Dtails:wr_en=%d, data_in=%d, full=%0d",seqitem.wr_en, seqitem.data_in, seqitem.full),UVM_LOW) 
 		end
 	endfunction
@@ -55,10 +57,10 @@ class scoreboard extends uvm_scoreboard;
 		if(read_trans.rd_en &!read_trans.empty)
 	   begin
 		actual_data = read_trans.data_out;
-	    expected_data= transaction_queue.pop_back();
+		   expected_data= transaction_queue.pop_back(); //getting output data from queue 
 		   `uvm_info("Scoreboard_getting read data_in",$sformatf("Burtst Dtails:r_en=%d, data_in=%d, full=%0d",read_trans.rd_en, read_trans.data_in, read_trans.empty),UVM_LOW)
 		end
-		if(actual_data != expected_data) begin
+		if(actual_data != expected_data) begin // comparing data from queue with output data from DUT
 			`uvm_error("Comparing read", $sformatf("transaction failed actual_data=%d, expected_data=%d", actual_data,expected_data)) 
 		end
 	else begin
