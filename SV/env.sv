@@ -7,12 +7,14 @@
 `include "scoreboard.sv"
 
 class environment;
+  //creating handles for all components
   generator gen;
   driver driv;
   monitor_in mon_in;
   monitor_out mon_out;
   scoreboard scb; 
-  
+
+  //creating handles for all the amilboxes
   mailbox gen2driv;
   mailbox mon_in2scb;
   mailbox mon_out2scb;
