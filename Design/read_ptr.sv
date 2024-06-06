@@ -1,8 +1,8 @@
-module read_ptr #(parameter Addr_Width=8)( rd_clk, rd_rstn, rd_en,   wr_ptr_sync,  rd_addr, rd_ptr,  empty);
+module read_ptr #(parameter Addr_Width=8)( rd_clk, rd_rstn, rd_en,   wr_ptr_sync,  rd_addr, rd_ptr,  empty, half_empty);
 
 	input bit rd_clk,rd_rstn, rd_en;
 	input logic [Addr_Width:0]  wr_ptr_sync;
-	output bit empty;
+	output bit empty, half_empty;
 	output logic [Addr_Width:0] rd_addr, rd_ptr;
 
  	logic rd_empty;
