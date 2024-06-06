@@ -4,7 +4,8 @@ class driver;
   
   virtual intfc intf_vi;
   mailbox gen2driv;
- 
+
+  //constructor assigning passed values to member variables
   function new(virtual intfc intf_vi, mailbox gen2driv);
     this.intf_vi = intf_vi;
     this.gen2driv = gen2driv;
