@@ -96,12 +96,12 @@ commands_while_reset: cross c5,c6,c11;
 
 endgroup
 
-
+//constructor new
 function new (string name="coverage",uvm_component parent);
 super.new(name,parent);
 `uvm_info("COVERAGE CLASS", "Cov", UVM_LOW)
-CG_2=new();
-test_read=new();
+	CG_2=new(); //creating coverage
+	test_read=new(); 
 endfunction
 
 //Buid Phase
@@ -115,8 +115,8 @@ endfunction
 function void write(fifo_seq_item t);
 
 this.cov_tx=t;
-test_read.sample(t);
-CG_2.sample(t);
+	test_read.sample(t); //sampling the coverage
+	CG_2.sample(t); //sampling the coverage
 
 endfunction
 
