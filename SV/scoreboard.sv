@@ -1,8 +1,8 @@
 
 class scoreboard;
-  mailbox mon_in2scb;
-  mailbox mon_out2scb;
-  virtual intfc vif;
+  mailbox mon_in2scb; //handle of mailbox for monitor in to sdb
+  mailbox mon_out2scb; //handle of mailbox for monitor out to sdb
+  virtual intfc vif; //virtual handle of an interface
   logic [7:0] rddata_fifo[$];
   logic [7:0] wrdata_fifo[$]; 
   int fd;
@@ -10,6 +10,8 @@ class scoreboard;
   int verif_data_id[$];
   logic [8-1:0] verif_wrdata;
   int verif_id;
+
+//constructor
  function new(virtual intfc vif, mailbox mon_in2scb, mailbox mon_out2scb);
     this.vif = vif;
     this.mon_in2scb  = mon_in2scb;
@@ -18,6 +20,7 @@ class scoreboard;
   
   task main;
 	fork 
+     //calling tasks
       get_data_w();
       get_data_r();
     join_none;
@@ -33,7 +36,7 @@ class scoreboard;
         
      if (vif.wr_en) begin
           mon_in2scb.get(tx);
-       verif_data_q.push_front(tx.data_in); 
+	     verif_data_q.push_front(tx.data_in);  // storing the input data into the queue
            verif_data_id.push_front(tx.uniq_id); 
          if(tx.uniq_id==1)
            $display("[SCOREBOARD] wdata =%h, uniq_id=%d",tx.data_in,tx.uniq_id);
@@ -52,10 +55,10 @@ class scoreboard;
       @(posedge vif.rd_clk iff !vif.empty)
         vif.rd_en = (j%3 == 0)? 1'b1 : 1'b0;
       if ((vif.rd_en) &&(j!=0)) begin
-          verif_wrdata = verif_data_q.pop_back();
+	      verif_wrdata = verif_data_q.pop_back(); //popping out the data stored to compare with output data from dut
           verif_id = verif_data_id.pop_back();
               mon_out2scb.get(tx);
-        if(tx.data_out === verif_wrdata) 
+	      if(tx.data_out === verif_wrdata) //comparing data
 		$display("PASS : expected wr_ata = %h, rd_data = %h, uniq_id=%d", verif_wrdata, tx.data_out,verif_id);
 	else 
 		$error("Checking failed: expected wr_data = %h, rd_data = %h,uniq_id=%d", verif_wrdata, tx.data_out, verif_id);
