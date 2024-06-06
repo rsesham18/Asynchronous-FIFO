@@ -1,7 +1,7 @@
 class driver extends uvm_driver #(fifo_seq_item);
-	`uvm_component_utils(driver)
-	virtual intfc Virtual_Intf;	
-	fifo_seq_item driver_tx; 
+	`uvm_component_utils(driver) //registering driver class to the factory
+	virtual intfc Virtual_Intf; // creating virtual handle of interface
+	fifo_seq_item driver_tx; // creating handle for sequence item for driver
 	
 	
 	//creating a new constructor
@@ -15,9 +15,9 @@ class driver extends uvm_driver #(fifo_seq_item);
 	function void build_phase (uvm_phase phase);
 		super.build_phase(phase);
 		`uvm_info("Driver Class", "Build Phase!",UVM_LOW)
-		if(!(uvm_config_db #(virtual intfc)::get(this,"*","Virtual_Intf",Virtual_Intf))) 
+		if(!(uvm_config_db #(virtual intfc)::get(this,"*","Virtual_Intf",Virtual_Intf))) //getting the interface instance from configuartion database
 		begin
-			`uvm_error("Driver Class", "Failed")
+			`uvm_error("Driver Class", "Failed") //error poping out if randomization fails
 		end
 		
 	endfunction
