@@ -3,7 +3,10 @@
 import uvm_pkg::*;
 `include "uvm_macros.svh"
 
+//including interface
 `include "interface.sv"
+
+//including all the objects and components
 `include "FIFO_sequence_items.sv"
 `include "fifo_sequence.sv"
 `include "fifo_sequencer.sv"
@@ -15,6 +18,7 @@ import uvm_pkg::*;
 `include "env.sv"
 `include "uvmtest.sv"
 
+//testbench top
 module uvmtb_top;
 
 parameter Depth=256;
@@ -26,23 +30,27 @@ parameter Addr_Width=8;
 	bit wr_clk;
 	bit wr_rstn, rd_rstn;
 	
+	//getting instance of an interface
+	intfc Intf_DUT(.wr_clk(wr_clk), .rd_clk(rd_clk), .wr_rstn(wr_rstn), .rd_rstn(rd_rstn
 	
-	intfc Intf_DUT(.wr_clk(wr_clk), .rd_clk(rd_clk), .wr_rstn(wr_rstn), .rd_rstn(rd_rstn));
+	//creating instance of DUT
 	async_top #(.Depth(Depth), .Data_Width(Data_Width), .Addr_Width(Addr_Width)) DUT (.intf(Intf_DUT));
 	
-	// connecting interface through uvm_config_db to other test bench components
+	
 	initial begin
-		uvm_config_db #(virtual intfc):: set(null, "*", "Virtual_Intf", Intf_DUT);
+		uvm_config_db #(virtual intfc):: set(null, "*", "Virtual_Intf", Intf_DUT); //set the interface handle to the configuartion database
 	end
 	
 	
 	initial begin
-		run_test("uvmtest");
+		run_test("uvmtest"); //running the test component uvmtest
 	end
 	
-	// clock generation
+	//write clock generation
 	always #5 rd_clk=~rd_clk;
-    always #2 wr_clk=~wr_clk;
+
+	//read clock generation
+    	always #2 wr_clk=~wr_clk;
 	
 	
 	//reset Generation
