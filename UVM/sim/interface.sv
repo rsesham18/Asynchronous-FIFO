@@ -4,7 +4,7 @@ parameter wr_clk_width=4;
 parameter rd_clk_width=10;
 logic wr_en, rd_en;
 logic [Addr_Width:0] rd_ptr_sync, wr_ptr_sync, wr_addr, wr_ptr,rd_addr, rd_ptr;
-bit full, empty;
+bit full, empty, half_empty, half_full;
 logic [Data_Width-1:0] data_in,data_out;
 logic  [Data_Width-1:0] wr_data_q[$],rd_data;
  int uniq_id;
