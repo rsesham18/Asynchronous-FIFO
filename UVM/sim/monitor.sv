@@ -1,9 +1,10 @@
 class monitor extends uvm_monitor;
-`uvm_component_utils(monitor)
-virtual intfc Virtual_Intf; 
-fifo_seq_item mon_tx;
+	`uvm_component_utils(monitor) //registering monitor component to the factory
+virtual intfc Virtual_Intf; // creating virtual handle for interface 
+fifo_seq_item mon_tx; //creating handle of sequence item for monitor
 
-uvm_analysis_port #(fifo_seq_item) monitor_port; 
+	uvm_analysis_port #(fifo_seq_item) monitor_port; //creating object for analysis port
+	
 // creating a new constructor for monitor class
 function new (string name="monitor", uvm_component parent);
 	super.new(name, parent);
