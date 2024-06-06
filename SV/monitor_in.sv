@@ -1,6 +1,6 @@
 class monitor_in;
-  virtual intfc vif; //virtual instance of interface
-  mailbox mon_in2scb; // instancing mailbox for monitor to scoreboard
+  virtual intfc vif; //virtual handle of interface
+  mailbox mon_in2scb; // mailbox handle for monitor to scoreboard
   transaction tx=new(); // creating a transaction
 int fd;
 
