@@ -2,7 +2,7 @@ import uvm_pkg::*;
 `include "uvm_macros.svh"
 
 class fifo_seq_item #(parameter  Data_Width =8, Addr_Width = 8, Depth=256)extends uvm_sequence_item;
-    `uvm_object_utils(fifo_seq_item #(8,8,256))// registering 
+	`uvm_object_utils(fifo_seq_item #(8,8,256)) // registering sequence item to factory 
 	rand bit wr_en;
 	rand bit rd_en;
 	rand bit wr_rstn;
@@ -11,7 +11,7 @@ class fifo_seq_item #(parameter  Data_Width =8, Addr_Width = 8, Depth=256)extend
 	bit [Data_Width-1:0] data_out;
 	bit empty, full;
 	bit [Addr_Width:0] wr_addr, rd_addr;
-	constraint no_rst {wr_rstn == 1 && rd_rstn ==1;}
+	//constraint no_rst {wr_rstn == 1 && rd_rstn ==1;}
 	
 	function string convert2str();
 		return $sformatf ("wr_en =%0d, rd_en =%0d,data_in =%0d",wr_en,rd_en,data_in);
