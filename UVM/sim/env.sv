@@ -1,8 +1,8 @@
 class env extends uvm_env;
-	`uvm_component_utils(env)
-	agent agt;
-	scoreboard sbd; 
-	coverage  covrg;
+	`uvm_component_utils(env) //registering the environment component to the factory
+	agent agt; // creating handle for agent class
+	scoreboard sbd; // creating handle for scoreboard class
+	coverage  covrg; // creating handle for coverage class
 	
 
 	// creating a new constructor 
