@@ -3,7 +3,7 @@ import uvm_pkg::*;
 
 class fifo_sequence extends uvm_sequence;
 	
-	`uvm_object_utils (fifo_sequence) // registering the class with factory
+	`uvm_object_utils (fifo_sequence) // registering the sequence class with factory
 	
 	fifo_seq_item trans; // creating the class handle for sequence item class
 	
@@ -13,9 +13,6 @@ class fifo_sequence extends uvm_sequence;
 		`uvm_info("FIFO_SEQUENCE", "Inside Constructor!", UVM_LOW)
 	endfunction
 	 
-	 
-
-	// randomizing with write_enable-1 and read enable-0
 	task body();
 		begin
 		    `uvm_info("FIFO_SEQUENCE","INSIDE THE TASK BODY!",UVM_LOW)
@@ -32,7 +29,7 @@ class fifo_sequence extends uvm_sequence;
 	
 endclass
 	  
-	  
+  
 class fifo_sequence_wr extends uvm_sequence;
 	
 	`uvm_object_utils (fifo_sequence_wr) // registering the class with factory
