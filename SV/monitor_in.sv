@@ -15,7 +15,8 @@ int fd;
     $display("[ MONITOR_IN ] ****** MONITOR_IN STARTED ******"); 
  
     forever begin
-       
+
+      //passing input data from stimulus to the scorboard
       @(posedge vif.wr_clk iff !vif.full);
         
       if (vif.wr_en) begin
