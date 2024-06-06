@@ -1,11 +1,13 @@
 //`include "transaction.sv"
 class monitor_out;
   int tx_count=0;
-  virtual intfc vif;
-  mailbox mon_out2scb;
+  virtual intfc vif; //virtual handle of an interface
+  mailbox mon_out2scb; //handle of a mailbox
    transaction tx = new();
 int fd;
 int i;
+
+  //constrtuctor 
   function new(virtual intfc vif, mailbox mon_out2scb);
     this.vif = vif;
     this.mon_out2scb = mon_out2scb;
@@ -15,7 +17,7 @@ int i;
     $display("[ MONITOR_OUT ] ****** MONITOR_OUT STARTED ******");    
   
     forever begin
-        
+        //passing output data from dut to scoreboard
       @(posedge vif.rd_clk iff !vif.empty)
         vif.rd_en = (i%3 == 0)? 1'b1 : 1'b0;
       if ((vif.rd_en)&&(i!=0)) begin
